@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#f8f7f3" />
-  <meta name="description" content="2026년 12월 11일~13일 후쿠오카 여행. 확정된 항공편, 숙소, 지출 내역." />
+  <meta name="description" content="2026년 12월 11일~13일 후쿠오카 여행. 항공편, 숙소, 준비할 일, 지출 내역." />
   <title>Fukuoka — 12.11–13</title>
   <style>
     :root { --bg:#f8f7f3; --ink:#202d29; --sub:#68756e; --line:#e4e5df; --accent:#407e67; --accent-pale:#e9f0e9; --white:#fff; --peach:#efd5c5; }
@@ -69,6 +69,23 @@
     .stay-address { margin:0; color:#68776d; font-size:13px; line-height:1.85; overflow-wrap:anywhere; }
     .stay-link { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; padding:12px 19px; border:1px solid #d6dfd7; border-radius:24px; font-size:12px; color:var(--accent); font-weight:700; }
     .stay-link:hover { border-color:var(--accent); background:#f2f7f2; }
+    .task-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .task-panel { background:var(--white); border:1px solid #e7e9e5; border-radius:16px; padding:26px 28px; min-height:205px; }
+    .task-panel-top { display:flex; justify-content:space-between; align-items:center; gap:15px; padding-bottom:18px; border-bottom:1px solid #e9ece8; }
+    .task-panel-top h3 { font-size:18px; letter-spacing:-.055em; margin:0; font-weight:700; }
+    .task-count { font-size:12px; color:#567362; background:#edf3ec; border-radius:12px; padding:5px 10px; font-weight:700; font-variant-numeric:tabular-nums; }
+    .task-row { padding:19px 0; }
+    .task-row + .task-row { border-top:1px solid #eef0ec; }
+    .task-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    .task-name { font-size:14px; font-weight:700; line-height:1.5; letter-spacing:-.03em; }
+    .task-panel.done .task-name { color:#718277; }
+    .task-state { flex-shrink:0; border-radius:6px; padding:5px 8px; color:#66806e; background:#edf2ec; font-size:10px; font-weight:750; }
+    .task-state.progress { color:#456f8a; background:#e8f1f5; }
+    .task-state.complete { color:var(--accent); background:#e5efe7; }
+    .task-meta { margin:8px 0 0; color:#7e8a80; font-size:11px; line-height:1.6; }
+    .task-memo { margin:7px 0 0; color:#67786d; font-size:12px; line-height:1.5; }
+    .task-empty { padding:25px 0 5px; color:#8b978d; font-size:12px; line-height:1.6; }
+    .task-notice { margin:15px 0 0; color:#889589; font-size:11px; }
     .expense-band { background:#edf2ec; padding:76px 0 88px; }
     .expense-inner { display:grid; grid-template-columns:.65fr 1.35fr; gap:75px; align-items:start; }
     .expense-inner .section-title { margin-bottom:20px; }
@@ -134,6 +151,8 @@
       .stay-card { padding:26px 23px; flex-direction:column; align-items:stretch; gap:20px; }
       .stay-name { font-size:20px; }
       .stay-link { align-self:flex-start; }
+      .task-grid { grid-template-columns:1fr; gap:13px; }
+      .task-panel { min-height:180px; padding:24px 22px; }
       .expense-band { padding:66px 0 74px; }
       .expense-inner { grid-template-columns:1fr; gap:29px; }
       .expense-inner .section-title { margin-bottom:18px; }
@@ -155,6 +174,7 @@
       <nav class="header-right" aria-label="사이트 메뉴">
         <a href="#flights">항공 일정</a>
         <a href="#stay">숙소</a>
+        <a href="#todo">여행 준비</a>
         <a href="#expenses">지출 기록</a>
         <button class="share" id="shareBtn" type="button" aria-label="페이지 링크 복사">링크 공유 ↗</button>
       </nav>
@@ -219,6 +239,26 @@
           </div>
           <a class="stay-link" href="https://www.google.com/maps/search/?api=1&amp;query=1-ch%C5%8Dme-12-31%20Takaki%20%E3%82%B7%E3%83%A3%E3%83%AD%E3%83%BC%E3%83%A0%E7%AB%B9%E4%B8%8B101%2C%20Minami%20Ward%2C%20Fukuoka%2C%20Fukuoka%20815-0004%2C%20%EC%9D%BC%EB%B3%B8" target="_blank" rel="noopener noreferrer">지도에서 보기 ↗</a>
         </article>
+      </div>
+    </section>
+
+    <section class="section" id="todo" aria-labelledby="todo-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><div class="label">Checklist</div><h2 class="section-title" id="todo-title">여행 준비</h2></div>
+          <p class="section-note">Google Sheets의 TODO 목록과 연동</p>
+        </div>
+        <div class="task-grid">
+          <article class="task-panel" aria-labelledby="todo-open-title">
+            <div class="task-panel-top"><h3 id="todo-open-title">준비할 일</h3><span class="task-count" id="todoOpenCount">0</span></div>
+            <div id="todoOpenList" aria-live="polite"><p class="task-empty">아직 등록된 할 일이 없습니다.</p></div>
+          </article>
+          <article class="task-panel done" aria-labelledby="todo-done-title">
+            <div class="task-panel-top"><h3 id="todo-done-title">완료한 일</h3><span class="task-count" id="todoDoneCount">0</span></div>
+            <div id="todoDoneList" aria-live="polite"><p class="task-empty">완료한 항목이 없습니다.</p></div>
+          </article>
+        </div>
+        <p class="task-notice" id="todoNotice" aria-live="polite">TODO 목록 연결 중…</p>
       </div>
     </section>
 
@@ -345,6 +385,72 @@
       dataScript.onerror = showFallback;
       document.head.appendChild(dataScript);
       window.setTimeout(showFallback, 10000);
+
+      // 'TODO' 탭의 진행 상태가 '완료'인 항목은 별도 리스트로 표시합니다.
+      var openList = document.getElementById('todoOpenList');
+      var doneList = document.getElementById('todoDoneList');
+      var todoNotice = document.getElementById('todoNotice');
+      var todoLoaded = false;
+      function renderTodoRows(target, items, emptyMessage, completed) {
+        target.replaceChildren();
+        if (items.length === 0) {
+          var empty = document.createElement('p'); empty.className = 'task-empty'; empty.textContent = emptyMessage;
+          target.appendChild(empty); return;
+        }
+        items.forEach(function (item) {
+          var row = document.createElement('div'); row.className = 'task-row';
+          var heading = document.createElement('div'); heading.className = 'task-heading';
+          var name = document.createElement('span'); name.className = 'task-name'; name.textContent = item.name;
+          var state = document.createElement('span');
+          var stateText = completed ? '완료' : (item.status || '상태 미지정');
+          state.className = 'task-state' + (stateText === '진행 중' ? ' progress' : completed ? ' complete' : '');
+          state.textContent = stateText;
+          heading.append(name, state); row.appendChild(heading);
+          var metaParts = [];
+          if (item.owner) metaParts.push('담당 ' + item.owner);
+          if (item.due) metaParts.push('기한 ' + item.due);
+          if (metaParts.length) {
+            var meta = document.createElement('p'); meta.className = 'task-meta'; meta.textContent = metaParts.join(' · ');
+            row.appendChild(meta);
+          }
+          if (item.memo) {
+            var memo = document.createElement('p'); memo.className = 'task-memo'; memo.textContent = item.memo;
+            row.appendChild(memo);
+          }
+          target.appendChild(row);
+        });
+      }
+      window.tripTodoCallback = function (response) {
+        if (response.status !== 'ok' || !response.table) { todoFallback(); return; }
+        todoLoaded = true;
+        var rows = Array.isArray(response.table.rows) ? response.table.rows : [];
+        var items = rows.map(function (row) {
+          var cells = row.c || [];
+          var value = function (i) { return cells[i] && cells[i].v != null ? String(cells[i].v).trim() : ''; };
+          var due = cells[2] ? String(cells[2].f || cells[2].v || '').trim() : '';
+          return { name:value(0), owner:value(1), due:due, status:value(3), memo:value(4) };
+        }).filter(function (item) { return item.name; });
+        var done = items.filter(function (item) { return item.status === '완료'; });
+        var open = items.filter(function (item) { return item.status !== '완료'; });
+        document.getElementById('todoOpenCount').textContent = String(open.length);
+        document.getElementById('todoDoneCount').textContent = String(done.length);
+        renderTodoRows(openList, open, '아직 등록된 할 일이 없습니다.', false);
+        renderTodoRows(doneList, done, '완료한 항목이 없습니다.', true);
+        todoNotice.textContent = 'Google Sheets TODO 반영 · 시트에서 수정한 뒤 페이지를 새로고침하세요.';
+      };
+      function todoFallback() {
+        if (todoLoaded) return;
+        todoLoaded = true;
+        todoNotice.textContent = 'TODO 시트 연결 대기 중 · Google Sheets 공유 설정을 확인해 주세요.';
+      }
+      var todoParams = 'tqx=' + encodeURIComponent('out:json;responseHandler:tripTodoCallback') +
+        '&sheet=TODO&headers=1&tq=' + encodeURIComponent('select A,B,C,D,E') + '&_=' + Date.now();
+      var todoScript = document.createElement('script');
+      todoScript.src = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId + '/gviz/tq?' + todoParams;
+      todoScript.onerror = todoFallback;
+      document.head.appendChild(todoScript);
+      window.setTimeout(todoFallback, 10000);
+
       var share = document.getElementById('shareBtn');
       share.addEventListener('click',function () {
         var link = location.href.split('#')[0];
