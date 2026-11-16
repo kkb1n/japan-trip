@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#f8f7f3" />
-  <meta name="description" content="2026년 12월 11일~13일 후쿠오카 여행. 확정된 항공편과 지출 내역." />
+  <meta name="description" content="2026년 12월 11일~13일 후쿠오카 여행. 확정된 항공편, 숙소, 지출 내역." />
   <title>Fukuoka — 12.11–13</title>
   <style>
     :root { --bg:#f8f7f3; --ink:#202d29; --sub:#68756e; --line:#e4e5df; --accent:#407e67; --accent-pale:#e9f0e9; --white:#fff; --peach:#efd5c5; }
@@ -64,6 +64,11 @@
     .flight-bottom { margin-top:35px; padding-top:20px; border-top:1px solid #eff0ed; display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .airline { font-size:13px; font-weight:700; }
     .flight-type { font-size:11px; color:#8a968d; }
+    .stay-card { display:flex; justify-content:space-between; align-items:center; gap:28px; background:var(--white); border:1px solid #e7e9e5; border-radius:16px; padding:33px 35px; }
+    .stay-name { margin:0 0 11px; font-size:22px; font-weight:680; letter-spacing:-.055em; }
+    .stay-address { margin:0; color:#68776d; font-size:13px; line-height:1.85; overflow-wrap:anywhere; }
+    .stay-link { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; padding:12px 19px; border:1px solid #d6dfd7; border-radius:24px; font-size:12px; color:var(--accent); font-weight:700; }
+    .stay-link:hover { border-color:var(--accent); background:#f2f7f2; }
     .expense-band { background:#edf2ec; padding:76px 0 88px; }
     .expense-inner { display:grid; grid-template-columns:.65fr 1.35fr; gap:75px; align-items:start; }
     .expense-inner .section-title { margin-bottom:20px; }
@@ -72,6 +77,11 @@
     .expense-total small { margin-left:6px; color:#758b7c; font-size:12px; font-weight:550; letter-spacing:0; }
     .expense-per-person { margin:15px 0 0; font-size:14px; color:#536b5b; font-weight:650; }
     .expense-per-person span { font-variant-numeric:tabular-nums; }
+    .settlement-filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+    .settlement-filter { border:1px solid #d9e4d8; background:transparent; color:#67796d; border-radius:22px; padding:9px 14px; font-size:12px; font-weight:650; cursor:pointer; transition:background .15s,border-color .15s; }
+    .settlement-filter:hover { border-color:#9db9a6; }
+    .settlement-filter[aria-pressed="true"] { background:#356c57; border-color:#356c57; color:#fff; }
+    .settlement-filter span { margin-left:4px; opacity:.75; font-variant-numeric:tabular-nums; }
     .expense-list { background:var(--white); border:1px solid #dfe8df; border-radius:15px; padding:7px 27px; }
     .expense-item { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:25px 0; }
     .expense-item + .expense-item { border-top:1px solid #e8ece7; }
@@ -81,6 +91,9 @@
     .expense-price { font-size:20px; font-weight:680; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
     .expense-unit { display:block; color:#6e8676; font-size:11px; font-weight:550; margin-top:7px; }
     .expense-paid { display:block; color:var(--accent); font-size:11px; font-weight:650; margin-top:8px; }
+    .settlement-status { display:inline-block; border-radius:6px; padding:5px 8px; margin-top:9px; font-size:11px; font-weight:700; background:#e5eee7; color:#407e67; }
+    .settlement-status.unsettled { background:#fff0e4; color:#ab7047; }
+    .settlement-status.unknown { background:#f0f1ed; color:#7c8a80; }
     .expense-notice { margin:15px 0 0; color:#7b887e; font-size:11px; line-height:1.5; }
     .expense-empty { margin:0; padding:28px 0; font-size:13px; color:#78877d; }
     .site-footer { padding:35px 0 39px; }
@@ -118,6 +131,9 @@
       .flight-times { grid-template-columns:1fr 70px 1fr; }
       .flight-stop strong { font-size:39px; }
       .flight-bottom { margin-top:31px; }
+      .stay-card { padding:26px 23px; flex-direction:column; align-items:stretch; gap:20px; }
+      .stay-name { font-size:20px; }
+      .stay-link { align-self:flex-start; }
       .expense-band { padding:66px 0 74px; }
       .expense-inner { grid-template-columns:1fr; gap:29px; }
       .expense-inner .section-title { margin-bottom:18px; }
@@ -138,6 +154,7 @@
       <a href="#top" class="wordmark" aria-label="맨 위로 이동"><span class="mark">f.</span>fukuoka / 2026</a>
       <nav class="header-right" aria-label="사이트 메뉴">
         <a href="#flights">항공 일정</a>
+        <a href="#stay">숙소</a>
         <a href="#expenses">지출 기록</a>
         <button class="share" id="shareBtn" type="button" aria-label="페이지 링크 복사">링크 공유 ↗</button>
       </nav>
@@ -189,18 +206,43 @@
       </div>
     </section>
 
+    <section class="section" id="stay" aria-labelledby="stay-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><div class="label">Accommodation</div><h2 class="section-title" id="stay-title">숙소</h2></div>
+          <p class="section-note">예약 완료 · 12.11(금) — 12.13(일) · 2박 3일</p>
+        </div>
+        <article class="stay-card">
+          <div>
+            <h3 class="stay-name">シャローム竹下101</h3>
+            <p class="stay-address">1-chōme-12-31 Takaki, Minami Ward, Fukuoka, Fukuoka 815-0004, 일본</p>
+          </div>
+          <a class="stay-link" href="https://www.google.com/maps/search/?api=1&amp;query=1-ch%C5%8Dme-12-31%20Takaki%20%E3%82%B7%E3%83%A3%E3%83%AD%E3%83%BC%E3%83%A0%E7%AB%B9%E4%B8%8B101%2C%20Minami%20Ward%2C%20Fukuoka%2C%20Fukuoka%20815-0004%2C%20%EC%9D%BC%EB%B3%B8" target="_blank" rel="noopener noreferrer">지도에서 보기 ↗</a>
+        </article>
+      </div>
+    </section>
+
     <section class="expense-band" id="expenses" aria-labelledby="expenses-title">
       <div class="wrap expense-inner">
         <div>
           <div class="label">Expenses</div>
           <h2 class="section-title" id="expenses-title">지출 기록</h2>
           <div class="expense-total-label">현재까지 전체 지출 금액</div>
-          <div class="expense-total"><span id="expenseTotal">₩1,500,000</span><small>/ 3명 합계</small></div>
-          <p class="expense-per-person">인당 지출 <span id="expensePerPerson">₩500,000</span></p>
+          <div class="expense-total"><span id="expenseTotal">₩1,985,347</span><small>/ 3명 합계</small></div>
+          <p class="expense-per-person">인당 지출 <span id="expensePerPerson">₩661,782</span></p>
           <p class="expense-notice" id="expenseNotice" aria-live="polite">지출 장부 연결 중…</p>
         </div>
-        <div class="expense-list" id="expenseList" aria-label="확정된 지출 항목">
-          <div class="expense-item"><div><span class="expense-name">왕복 항공권</span><span class="expense-description">이스타항공 · 제주항공</span></div><div class="expense-right"><span class="expense-price">₩1,500,000</span><span class="expense-unit">인당 ₩500,000</span><span class="expense-paid">결제 완료</span></div></div>
+        <div>
+          <div class="settlement-filters" role="group" aria-label="정산 상태별 지출 보기">
+            <button class="settlement-filter" type="button" data-settlement-filter="all" aria-pressed="true">전체 <span>2</span></button>
+            <button class="settlement-filter" type="button" data-settlement-filter="미정산" aria-pressed="false">미정산 <span>0</span></button>
+            <button class="settlement-filter" type="button" data-settlement-filter="정산 완료" aria-pressed="false">정산 완료 <span>0</span></button>
+            <button class="settlement-filter" type="button" data-settlement-filter="확인 전" aria-pressed="false">확인 전 <span>2</span></button>
+          </div>
+          <div class="expense-list" id="expenseList" aria-label="확정된 지출 항목">
+            <div class="expense-item"><div><span class="expense-name">왕복 항공권</span><span class="expense-description">이스타항공 · 제주항공</span></div><div class="expense-right"><span class="expense-price">₩1,500,000</span><span class="expense-unit">인당 ₩500,000</span><span class="expense-paid">결제 완료</span><span class="settlement-status unknown">정산 확인 전</span></div></div>
+            <div class="expense-item"><div><span class="expense-name">숙소</span><span class="expense-description">2박 3일 · シャローム竹下101</span></div><div class="expense-right"><span class="expense-price">₩485,347</span><span class="expense-unit">인당 약 ₩161,782</span><span class="expense-paid">결제 완료</span><span class="settlement-status unknown">정산 확인 전</span></div></div>
+          </div>
         </div>
       </div>
     </section>
@@ -212,21 +254,26 @@
       // 페이지 업데이트 없이 시트의 행을 추가하면 다음 새로고침 때 지출 내역에 반영됩니다.
       var spreadsheetId = '17_zkCl-DNMaths9VYZv-XoiLCD4TNxZHg11OxQpMNcA';
       var fallbackExpenses = [
-        { name: '왕복 항공권', description: '이스타항공 · 제주항공', amount: 1500000, perPerson: 500000, status: '결제 완료' }
+        { name: '왕복 항공권', description: '이스타항공 · 제주항공', amount: 1500000, perPerson: 500000, status: '결제 완료', settlement: '확인 전' },
+        { name: '숙소', description: '2박 3일 · シャローム竹下101', amount: 485347, perPerson: 485347 / 3, status: '결제 완료', settlement: '확인 전' }
       ];
       var won = function (n) { return '₩' + n.toLocaleString('ko-KR', { maximumFractionDigits: 0 }); };
       var list = document.getElementById('expenseList');
       var notice = document.getElementById('expenseNotice');
       var complete = false;
-      var renderExpenses = function (expenses) {
-        document.getElementById('expenseTotal').textContent = won(expenses.reduce(function (sum, x) { return sum + x.amount; }, 0));
-        document.getElementById('expensePerPerson').textContent = won(expenses.reduce(function (sum, x) { return sum + x.perPerson; }, 0));
+      var activeFilter = 'all';
+      var currentExpenses = [];
+      var filterButtons = Array.from(document.querySelectorAll('[data-settlement-filter]'));
+      var normalizeSettlement = function (value) { return value === '정산 완료' || value === '미정산' ? value : '확인 전'; };
+      var drawExpenseList = function () {
+        var visible = currentExpenses.filter(function (item) { return activeFilter === 'all' || normalizeSettlement(item.settlement) === activeFilter; });
         list.replaceChildren();
-        if (expenses.length === 0) {
+        if (visible.length === 0) {
           var empty = document.createElement('p'); empty.className = 'expense-empty';
-          empty.textContent = '아직 결제 완료된 지출이 없습니다.'; list.appendChild(empty);
+          empty.textContent = activeFilter === 'all' ? '아직 결제 완료된 지출이 없습니다.' : '해당 정산 상태의 지출이 없습니다.';
+          list.appendChild(empty);
         }
-        expenses.forEach(function (item) {
+        visible.forEach(function (item) {
           var row = document.createElement('div'); row.className = 'expense-item';
           var main = document.createElement('div');
           var name = document.createElement('span'); name.className = 'expense-name'; name.textContent = item.name;
@@ -234,10 +281,32 @@
           main.append(name, detail);
           var right = document.createElement('div'); right.className = 'expense-right';
           var amount = document.createElement('span'); amount.className = 'expense-price'; amount.textContent = won(item.amount);
-          var portion = document.createElement('span'); portion.className = 'expense-unit'; portion.textContent = '인당 ' + won(item.perPerson);
+          var portion = document.createElement('span'); portion.className = 'expense-unit'; portion.textContent = (Number.isInteger(item.perPerson) ? '인당 ' : '인당 약 ') + won(item.perPerson);
           var status = document.createElement('span'); status.className = 'expense-paid'; status.textContent = item.status;
-          right.append(amount, portion, status); row.append(main, right); list.appendChild(row);
+          var settlement = document.createElement('span');
+          var settlementValue = normalizeSettlement(item.settlement);
+          settlement.className = 'settlement-status' + (settlementValue === '미정산' ? ' unsettled' : settlementValue === '확인 전' ? ' unknown' : '');
+          settlement.textContent = settlementValue === '확인 전' ? '정산 확인 전' : settlementValue;
+          right.append(amount, portion, status, settlement); row.append(main, right); list.appendChild(row);
         });
+      };
+      filterButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          activeFilter = button.getAttribute('data-settlement-filter');
+          filterButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b === button)); });
+          drawExpenseList();
+        });
+      });
+      var renderExpenses = function (expenses) {
+        document.getElementById('expenseTotal').textContent = won(expenses.reduce(function (sum, x) { return sum + x.amount; }, 0));
+        document.getElementById('expensePerPerson').textContent = won(expenses.reduce(function (sum, x) { return sum + x.perPerson; }, 0));
+        currentExpenses = expenses;
+        filterButtons.forEach(function (button) {
+          var kind = button.getAttribute('data-settlement-filter');
+          var count = kind === 'all' ? expenses.length : expenses.filter(function (x) { return normalizeSettlement(x.settlement) === kind; }).length;
+          button.querySelector('span').textContent = String(count);
+        });
+        drawExpenseList();
       };
       // 공개 읽기 권한을 가진 시트는 Google Visualization API로 인증 없이 불러올 수 있습니다.
       // JSONP 방식으로 GitHub Pages와 Google Sheets 사이의 CORS 제한을 피합니다.
@@ -252,7 +321,7 @@
           var rawPerPerson = cell(4);
           var amount = typeof rawAmount === 'number' ? rawAmount : Number(String(rawAmount).replace(/[^\d.-]/g, ''));
           var perPerson = typeof rawPerPerson === 'number' ? rawPerPerson : Number(String(rawPerPerson).replace(/[^\d.-]/g, ''));
-          return { name: String(cell(1)).trim(), description: String(cell(2)).trim(), amount: amount, perPerson: perPerson, status: String(cell(5)).trim() };
+          return { name: String(cell(1)).trim(), description: String(cell(2)).trim(), amount: amount, perPerson: perPerson, status: String(cell(5)).trim(), settlement: String(cell(6)).trim() };
         }).filter(function (item) {
           return item.name && Number.isFinite(item.amount) && item.amount >= 0 && Number.isFinite(item.perPerson) && item.perPerson >= 0 && item.status === '결제 완료';
         });
@@ -267,7 +336,7 @@
         notice.textContent = '장부 연결 대기 중 · 기존 확정 내역을 표시하고 있어요.';
       }
       renderExpenses(fallbackExpenses);
-      var query = 'select A,B,C,D,E,F';
+      var query = 'select A,B,C,D,E,F,G';
       var params = 'tqx=' + encodeURIComponent('out:json;responseHandler:tripLedgerCallback') +
         '&sheet=' + encodeURIComponent('지출내역') + '&headers=1&tq=' + encodeURIComponent(query) +
         '&_=' + Date.now();
