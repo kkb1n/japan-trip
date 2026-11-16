@@ -64,6 +64,8 @@
     .flight-bottom { margin-top:35px; padding-top:20px; border-top:1px solid #eff0ed; display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .airline { font-size:13px; font-weight:700; }
     .flight-type { font-size:11px; color:#8a968d; }
+    .booking-code { display:block; margin-top:9px; font-size:11px; color:#7b897e; }
+    .booking-code strong { color:#415e4e; font-size:12px; font-weight:700; letter-spacing:.03em; }
     .stay-card { display:flex; justify-content:space-between; align-items:center; gap:28px; background:var(--white); border:1px solid #e7e9e5; border-radius:16px; padding:33px 35px; }
     .stay-name { margin:0 0 11px; font-size:22px; font-weight:680; letter-spacing:-.055em; }
     .stay-address { margin:0; color:#68776d; font-size:13px; line-height:1.85; overflow-wrap:anywhere; }
@@ -207,20 +209,20 @@
           <article class="flight-card" aria-label="12월 11일 출국 항공편">
             <div class="flight-top"><span class="flight-kind">가는 편</span><span class="flight-date">12.11 금요일</span></div>
             <div class="flight-times">
-              <div class="flight-stop"><strong>12:40</strong><span>한국 출발</span></div>
+              <div class="flight-stop"><strong>10:30</strong><span>인천 · ICN</span></div>
               <div class="flight-arrow" aria-hidden="true"><span>→</span></div>
-              <div class="flight-stop arrival"><strong>14:00</strong><span>후쿠오카 도착</span></div>
+              <div class="flight-stop arrival"><strong>12:00</strong><span>후쿠오카 · FUK</span></div>
             </div>
-            <div class="flight-bottom"><span class="airline">이스타항공</span><span class="flight-type">OUTBOUND</span></div>
+            <div class="flight-bottom"><div><span class="airline">제주항공</span></span></div><span class="flight-type">OUTBOUND</span></div>
           </article>
           <article class="flight-card" aria-label="12월 13일 귀국 항공편">
             <div class="flight-top"><span class="flight-kind">오는 편</span><span class="flight-date">12.13 일요일</span></div>
             <div class="flight-times">
-              <div class="flight-stop"><strong>13:00</strong><span>후쿠오카 출발</span></div>
+              <div class="flight-stop"><strong>11:30</strong><span>후쿠오카 · FUK</span></div>
               <div class="flight-arrow" aria-hidden="true"><span>→</span></div>
-              <div class="flight-stop arrival"><strong>14:30</strong><span>한국 도착</span></div>
+              <div class="flight-stop arrival"><strong>12:50</strong><span>인천 · ICN</span></div>
             </div>
-            <div class="flight-bottom"><span class="airline">제주항공</span><span class="flight-type">RETURN</span></div>
+            <div class="flight-bottom"><div><span class="airline">이스타항공</span></div><span class="flight-type">RETURN</span></div>
           </article>
         </div>
       </div>
